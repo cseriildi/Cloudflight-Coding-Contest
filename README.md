@@ -6,4 +6,4 @@ This repository contains my solutions to challenges from the [Cloudflight Coding
 
 | Challenge | Date | Languge |
 |-----------|------|:-------:|
-|[Room Planner]()|25.10.2025| Python |
+|[Room Planner](./Room_Planner/)|25.10.2025| Python |
