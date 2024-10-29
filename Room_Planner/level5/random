@@ -1,0 +1,43 @@
+
+	# # swapped = 0
+	# swapped = x % 3 != 2
+	# # swapped = y % 2 == 0 or x % 3 != 2
+	# if swapped:
+	# 	tmp = x
+	# 	x = y
+	# 	y = tmp
+
+	# room = [['.' for _ in range(x)] for _ in range(y)]
+
+	# max_column = x
+	# if x % 3 < 2:
+	# 	max_column -= x % 3
+	# for row in range(0, y, 2):
+	# 	for column in [i for i in range(max_column) if i % 3 != 2]:
+	# 		room[row][column] = "X"
+
+	# max_row = y
+	# if y % 3 < 2:
+	# 	max_row -= y % 3
+	# if x % 3 in (range(1, 2)):
+	# 	for row in [i for i in range(max_row) if i % 3 != 2]:
+	# 		room[row][-1] = 'X'
+
+	# if y % 2 == 0:
+	# 	for column in range(max_column):
+	# 		if column % 2 == 1:
+	# 			room[-2][column] = '.'
+	# 			room[-1][column] = '.'
+	# 		else:
+	# 			room[-2][column] = 'X'
+	# 			room[-1][column] = 'X'
+
+	# if x % 3 == 0:
+	# 	for row in range(y):
+	# 		if row % 3 == 0:
+	# 			room[row][-3:] = ['.', '.', '.']
+	# 		else:
+	# 			room[row][-3:] = ['X', '.', 'X']
+
+	# if swapped:
+	# 	room = transpose(room)
