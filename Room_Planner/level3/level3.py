@@ -1,65 +1,70 @@
-import pprint as pp
+############
+# SOLUTION #
+############
 
-def parser(file_path):
-
-	with open(file_path, 'r') as file:
-		lines = int(file.readline())
-		result = [file.readline().split() for _ in range(lines)]
-		return result
-
-def get_outfile_name(file_path):
-	result = file_path.split(".")[0] + ".out"
-	return result
-
-def	create_room(x, y):
+def	room_planner(width, length):
 	room = []
-	line = []
-	i = 0
+	room_index = 0
 
+	column = width % 3 * -1
+	max_row = length - length % 3
 
-	column = x % 3 * -1
-	max_row = y - y % 3
-
-	for _ in range(y):
-		for n in range(x):
-			if n < x + column:
-				if n % 3 == 0:
-					i += 1
-				line.append(str(i))
+	for _ in range(length):
+		line = []
+		for x in range(width):
+			if x < width + column:
+				if x % 3 == 0:
+					room_index += 1
+				line.append(str(room_index))
 			else:
 				line.append("0")
 
 		room.append(line[:])
-		line.clear()
 
-	if x % 3 != 0:
+	if width % 3 != 0:
 		for row in range(0, max_row, 3):
-			i += 1
-			room[row][column] = str(i)
-			room[row + 1][column] = str(i)
-			room[row + 2][column] = str(i)
+			room_index += 1
+			room[row][column] = str(room_index)
+			room[row + 1][column] = str(room_index)
+			room[row + 2][column] = str(room_index)
 
 			if column == -2:
-				i += 1
-				room[row][column + 1] = str(i)
-				room[row + 1][column + 1] = str(i)
-				room[row + 2][column + 1] = str(i)
+				room_index += 1
+				room[row][column + 1] = str(room_index)
+				room[row + 1][column + 1] = str(room_index)
+				room[row + 2][column + 1] = str(room_index)
 
-	result = '\n'.join([' '.join(line) for line in room])
-	return result
+	return '\n'.join([' '.join(line) for line in room]) + "\n"
 
-def level3(file_path):
+#########
+# UTILS #
+#########
+
+import os
+
+def parser(file_path):
+	with open("input/" + file_path, 'r') as infile:
+		lines = int(infile.readline())
+		return [infile.readline().split() for _ in range(lines)]
+
+def generate_outfile(file_path):
 	input = parser(file_path)
-	with open(get_outfile_name(file_path), 'w') as file:
-		for room in input:
-			file.write(create_room(int(room[0]), int(room[1])))
-			file.write("\n\n")
 
+	folder_path = "output/"
+	os.makedirs(folder_path, exist_ok=True)
 
-# level3("input/level3_example.in")
+	outfile_path = folder_path  + file_path.split(".")[0] + ".out"
 
-level3("input/level3_1.in")
-level3("input/level3_2.in")
-level3("input/level3_3.in")
-level3("input/level3_4.in")
-level3("input/level3_5.in")
+	with open(outfile_path, 'w') as outfile:
+		for line in input:
+			outfile.write(room_planner(int(line[0]), int(line[1])))
+			outfile.write("\n")
+
+level = os.path.basename(__file__).split(".")[0]
+
+generate_outfile(level + "_example.in")
+generate_outfile(level + "_1.in")
+generate_outfile(level + "_2.in")
+generate_outfile(level + "_3.in")
+generate_outfile(level + "_4.in")
+generate_outfile(level + "_5.in")

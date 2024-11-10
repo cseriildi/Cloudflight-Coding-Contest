@@ -1,49 +1,52 @@
-import pprint as pp
+############
+# SOLUTION #
+############
 
-def parser(file_path):
+def	room_planner(width, length):
+	room = [['.' for _ in range(width)] for _ in range(length)]
 
-	with open(file_path, 'r') as file:
-		lines = int(file.readline())
-		result = [file.readline().split() for _ in range(lines)]
-		return result
-
-def get_outfile_name(file_path):
-	result = file_path.split(".")[0] + ".out"
-	return result
-
-def	create_room(x, y):
-	room = [['.' for _ in range(x)] for _ in range(y)]
-
-	max_column = x
-	if x % 4 < 3:
-		max_column -= x % 4
-	for row in range(0, y, 2):
+	max_column = width -  width % 4 if width % 4 < 3 else width
+	for row in range(0, length, 2):
 		for column in [i for i in range(max_column) if i % 4 != 3]:
 			room[row][column] = "X"
 
-	max_row = y
-	if y % 4 < 3:
-		max_row -= y % 4
-	if x % 4 in (range(1, 3)):
+
+	max_row = length -  length % 4 if length % 4 < 3 else length
+	if width % 4 in (1, 2):
 		for row in [i for i in range(max_row) if i % 4 != 3]:
 			room[row][-1] = 'X'
 
-	result = '\n'.join([''.join(line) for line in room])
-	return result
+	return '\n'.join([''.join(line) for line in room]) + "\n"
 
-def level4(file_path):
+#########
+# UTILS #
+#########
+
+import os
+
+def parser(file_path):
+	with open("input/" + file_path, 'r') as infile:
+		lines = int(infile.readline())
+		return [infile.readline().split() for _ in range(lines)]
+
+def generate_outfile(file_path):
 	input = parser(file_path)
 
-	with open(get_outfile_name(file_path), 'w') as file:
-		for room in input:
-			file.write(create_room(int(room[0]), int(room[1])))
-			file.write("\n\n")
+	folder_path = "output/"
+	os.makedirs(folder_path, exist_ok=True)
 
+	outfile_path = folder_path  + file_path.split(".")[0] + ".out"
 
-# level4("input/level4_example.in")
+	with open(outfile_path, 'w') as outfile:
+		for line in input:
+			outfile.write(room_planner(int(line[0]), int(line[1])))
+			outfile.write("\n")
 
-level4("input/level4_1.in")
-level4("input/level4_2.in")
-level4("input/level4_3.in")
-level4("input/level4_4.in")
-level4("input/level4_5.in")
+level = os.path.basename(__file__).split(".")[0]
+
+generate_outfile(level + "_example.in")
+generate_outfile(level + "_1.in")
+generate_outfile(level + "_2.in")
+generate_outfile(level + "_3.in")
+generate_outfile(level + "_4.in")
+generate_outfile(level + "_5.in")

@@ -1,28 +1,39 @@
+############
+# SOLUTION #
+############
+
+def	room_planner(width, length):
+	return str(width // 3 * length)
+
+#########
+# UTILS #
+#########
+
+import os
+
 def parser(file_path):
+	with open("input/" + file_path, 'r') as infile:
+		lines = int(infile.readline())
+		return [infile.readline().split() for _ in range(lines)]
 
-	with open(file_path, 'r') as file:
-		lines = int(file.readline())
-		result = [file.readline().split() for _ in range(lines)]
-		return result
-
-def get_outfile_name(file_path):
-	result = file_path.split(".")[0] + ".out"
-	return result
-
-def count_desks(x, y):
-	return str(x // 3 * y)
-
-
-def level1(file_path):
+def generate_outfile(file_path):
 	input = parser(file_path)
-	print(input)
-	with open(get_outfile_name(file_path), 'w') as file:
-		for room in input:
-			file.write(count_desks(int(room[0]), int(room[1])))
-			file.write("\n")
 
-level1("input/level1_1.in")
-level1("input/level1_2.in")
-level1("input/level1_3.in")
-level1("input/level1_4.in")
-level1("input/level1_5.in")
+	folder_path = "output/"
+	os.makedirs(folder_path, exist_ok=True)
+
+	outfile_path = folder_path  + file_path.split(".")[0] + ".out"
+
+	with open(outfile_path, 'w') as outfile:
+		for line in input:
+			outfile.write(room_planner(int(line[0]), int(line[1])))
+			outfile.write("\n")
+
+level = os.path.basename(__file__).split(".")[0]
+
+generate_outfile(level + "_example.in")
+generate_outfile(level + "_1.in")
+generate_outfile(level + "_2.in")
+generate_outfile(level + "_3.in")
+generate_outfile(level + "_4.in")
+generate_outfile(level + "_5.in")
