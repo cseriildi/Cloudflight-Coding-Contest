@@ -1,43 +1,52 @@
-def parser(file_path):
+############
+# SOLUTION #
+############
 
-	with open(file_path, 'r') as file:
-		lines = int(file.readline())
-		result = [file.readline().split() for _ in range(lines)]
-		return result
-
-def get_outfile_name(file_path):
-	result = file_path.split(".")[0] + ".out"
-	return result
-
-def	create_room(x, y):
+def	room_planner(width, length):
 	room = ""
-	line = []
-	i = 1
+	room_index = 1
 
-	for _ in range(y):
-		for _ in range(0, x, 3):
-			line.append(str(i))
-			line.append(str(i))
-			line.append(str(i))
-			i += 1
+	for _ in range(length):
+		line = []
+		for _ in range(0, width, 3):
+			line.append(str(room_index))
+			line.append(str(room_index))
+			line.append(str(room_index))
+			room_index += 1
 		room += ' '.join(line)
 		room += "\n"
-		line.clear()
 
 	return room
 
-def level2(file_path):
+#########
+# UTILS #
+#########
+
+import os
+
+def parser(file_path):
+	with open("input/" + file_path, 'r') as infile:
+		lines = int(infile.readline())
+		return [infile.readline().split() for _ in range(lines)]
+
+def generate_outfile(file_path):
 	input = parser(file_path)
-	with open(get_outfile_name(file_path), 'w') as file:
-		for room in input:
-			file.write(create_room(int(room[0]), int(room[1])))
-			file.write("\n")
 
+	folder_path = "output/"
+	os.makedirs(folder_path, exist_ok=True)
 
-#level2("input/level2_example.in")
+	outfile_path = folder_path  + file_path.split(".")[0] + ".out"
 
-level2("input/level2_1.in")
-level2("input/level2_2.in")
-level2("input/level2_3.in")
-level2("input/level2_4.in")
-level2("input/level2_5.in")
+	with open(outfile_path, 'w') as outfile:
+		for line in input:
+			outfile.write(room_planner(int(line[0]), int(line[1])))
+			outfile.write("\n")
+
+level = os.path.basename(__file__).split(".")[0]
+
+generate_outfile(level + "_example.in")
+generate_outfile(level + "_1.in")
+generate_outfile(level + "_2.in")
+generate_outfile(level + "_3.in")
+generate_outfile(level + "_4.in")
+generate_outfile(level + "_5.in")
