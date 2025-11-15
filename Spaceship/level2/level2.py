@@ -10,8 +10,11 @@ class Kata:
     self.path = os.path.dirname(os.path.abspath(__file__))
     self.filename = filename
     self.input = self.readInput()
-    self.data = self.parse()
-    self.result = self.solve()
+    self.spaceships = []
+    self.result = ""
+
+    self.parse()
+    self.solve()
     self.generate_outfile()
 
 #########
@@ -19,18 +22,21 @@ class Kata:
 #########
 
   def parse(self):
-    return self.input.splitlines()
+    self.spaceships = [[int(i) for i in line.split(" ")] for line in self.input.splitlines()[1:]]
 
 ############
 # SOLUTION #
 ############
 
-  def solve(self):
-    result = []
-    for line in self.data:
-      result.append(line)
+  def getTime(self, pacelist: list[int]) -> int:
+    return sum(abs(pace) + (pace == 0) for pace in pacelist)
 
-    return "\n".join(result)
+  def getSpace(self, pacelist: list[int]) -> int:
+    return sum(pace // abs(pace) if pace else 0 for pace in pacelist)
+
+  def solve(self):
+    for ship in self.spaceships:
+      self.result += f"{self.getSpace(ship)} {self.getTime(ship)}\n"
 
 #########
 # UTILS #
@@ -57,9 +63,7 @@ class Kata:
 if __name__ == "__main__":
   level = os.path.basename(__file__).split(".")[0]
 
-  Kata(level + "_example")
-  Kata(level + "_1")
-  Kata(level + "_2")
-  Kata(level + "_3")
-  Kata(level + "_4")
-  Kata(level + "_5")
+  Kata(level + "_0_example")
+  Kata(level + "_1_small")
+  Kata(level + "_2_large")
+
